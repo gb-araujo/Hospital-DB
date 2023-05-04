@@ -1,6 +1,5 @@
 <h1 align="center" > Banco de Dados - Hospital </h1>
-<h3 align="center"> Atividade de criação de banco de dados para um hospital. </h3>
-
+<br>
 <h2 align="center"> O Hospital Fundamental. (1ª PARTE) </h2>
 <h3> Modelagem Conceitual: Entidade-relacionamento </h3>
 Analise a seguinte descrição e extraia dela os requisitos para o banco de dados:
