@@ -1,5 +1,7 @@
-create database if not exists hospital;
-use hospital;
+CREATE DATABASE IF NOT EXISTS hospital;
+USE hospital;
+
+-- CRIANDO TABELAS
 
 CREATE TABLE IF NOT EXISTS `especialidade` (
     `id_especialidade` int PRIMARY KEY AUTO_INCREMENT,
@@ -94,6 +96,8 @@ CREATE TABLE IF NOT EXISTS `internacao_enfermeiro` (
   FOREIGN KEY (`id_enfermeiro`) REFERENCES `enfermeiro` (`id_enfermeiro`)
 );
 
+-- INSERINDO DADOS NAS TABELAS
+
 INSERT INTO medico (nome) VALUES
   ('Rebeca'),
   ('Carlos'),
@@ -172,7 +176,6 @@ INSERT INTO consulta (data_consulta, hora_consulta, id_paciente, id_medico) VALU
   (301, 3),
   (302, 3);
  
-  
   INSERT INTO `enfermeiro` (`nome`, `CPF`, `CRE`) VALUES
   ('Enf. Ana', 123456789, 12345),
   ('Enf. Bruno', 234567890, 23456),
@@ -197,8 +200,26 @@ INSERT INTO consulta (data_consulta, hora_consulta, id_paciente, id_medico) VALU
 ('2022-01-09 10:00:00', '2022-01-13 10:00:00', NULL, 'Cirurgia de pulmão', 9),
 ('2022-01-10 10:00:00', '2022-01-14 10:00:00', NULL, 'Cirurgia de rim', 10);
  
+ -- ALGUNS AJUSTES, SETANDO FOREIGN KEY, ADICIONADO COLUNA E ATUALIZANDO PACIENTE.
+ 
 ALTER TABLE paciente ADD FOREIGN KEY (id_convenio) REFERENCES convenio(id_convenio);
 ALTER TABLE consulta ADD COLUMN id_convenio int;
 ALTER TABLE consulta ADD FOREIGN KEY (id_convenio) REFERENCES convenio(id_convenio);
 UPDATE paciente SET id_convenio = 1 WHERE nome = 'Ana';
+
+-- SETANDO MAIS UMA COLUNA NA TABELA MÉDICO - PARTE 4
+ALTER TABLE medico ADD COLUMN em_atividade VARCHAR(20);
+UPDATE medico SET em_atividade = 'Inativo' WHERE id_medico = 1;
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 2;
+UPDATE medico SET em_atividade = 'Inativo' WHERE id_medico = 3;
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 4;
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 5;
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 6;
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 7;
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 8;
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 9;
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 10;
+
+ALTER TABLE medico ALTER COLUMN em_atividade SET DEFAULT 'Em atividade';
+
 
