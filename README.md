@@ -38,3 +38,17 @@ Este repositório contém os scripts de povoamento das tabelas desenvolvidas na 
 Por fim, é importante destacar que os dados de tipo de quarto, convênio e especialidade são essenciais para a operação do sistema e, portanto, devem ser povoados assim que o sistema for instalado. Assim, garantimos que o sistema esteja completo e funcional desde o seu primeiro uso.
 
 O script se encontra no repositório, "hospital_pt3.sql"
+
+<h2 align="center">4ª PARTE - A Ordem do Alterar.  </h2>
+<h3 align="center"> Alterações na tabela e dados. </h3>
+
+No banco que já foi criado para o Projeto do Hospital, foi realizado algumas alterações nas tabelas e nos dados.
+- Foi criado um script que adiciona uma coluna “em_atividade” para os médicos, indicando se ele ainda está atuando no hospital ou não. 
+- Também foi criado um script para atualizar ao menos dois médicos como inativos e os demais em atividade.
+```
+ALTER TABLE medico ADD COLUMN em_atividade VARCHAR(20);
+UPDATE medico SET em_atividade = 'Inativo' WHERE id_medico = 1;
+...
+UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 10;
+ALTER TABLE medico ALTER COLUMN em_atividade SET DEFAULT 'Em atividade';
+```
