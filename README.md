@@ -37,7 +37,7 @@ Este repositório contém os scripts de povoamento das tabelas desenvolvidas na 
 - Inclusão dos dados de dez profissionais de enfermagem, com associação de cada internação a pelo menos dois enfermeiros.
 Por fim, é importante destacar que os dados de tipo de quarto, convênio e especialidade são essenciais para a operação do sistema e, portanto, devem ser povoados assim que o sistema for instalado. Assim, garantimos que o sistema esteja completo e funcional desde o seu primeiro uso.
 
-O script se encontra no repositório, "hospital_pt3.sql"
+O script se encontra no repositório, "hospital.sql"
 
 <h2 align="center">4ª PARTE - A Ordem do Alterar.  </h2>
 <h3 align="center"> Alterações na tabela e dados. </h3>
