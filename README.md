@@ -71,14 +71,14 @@ SELECT * FROM internacao WHERE data_alta > data_prev_alta;
 
 - Receituário completo da primeira consulta registrada com receituário associado.
 ```
-select * from consulta inner join receita on consulta.id_consulta = receita.consulta_id inner join paciente 
-on paciente.id_paciente = consulta.paciente_id order by receita.id_receita limit 1;
+SELECT * FROM receita WHERE consulta_id = (SELECT MIN(id_receita) FROM consulta);
 ```
 
 - Todos os dados da consulta de maior valor e também da de menor valor (ambas as consultas não foram realizadas sob convênio).
 
 ```
-select *, MAX(valor_consulta), MIN(valor_consulta) from consulta group by convenio_id is null;
+SELECT * FROM consulta WHERE id_convenio = NULL ORDER BY valor DESC;
+SELECT * FROM consulta WHERE id_convenio = NULL ORDER BY valor ASC;
 ```
 
 - Todos os dados das internações em seus respectivos quartos, calculando o total da internação a partir do valor de diária do quarto e o número de dias entre a entrada e a alta.
