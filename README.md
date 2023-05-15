@@ -52,3 +52,43 @@ UPDATE medico SET em_atividade = 'Inativo' WHERE id_medico = 1;
 UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 10;
 ALTER TABLE medico ALTER COLUMN em_atividade SET DEFAULT 'Em atividade';
 ```
+
+<h2 align="center">5ª PARTE - Consultas. </h2>
+<h3 align="center">Script com consultas que retornam: </h3>
+
+- Todos os dados e o valor médio das consultas do ano de 2020 e das que foram feitas sob convênio.
+
+```
+SELECT * FROM consulta WHERE YEAR(data_consulta) = 2020 OR id_convenio = 1;
+SELECT AVG(valor) FROM consulta WHERE YEAR(data) = 2020 OR convenio = 1;
+```
+
+- Todos os dados das internações que tiveram data de alta maior que a data prevista para a alta.
+
+```
+SELECT * FROM internacao WHERE data_alta > data_prev_alta;
+```
+
+- Receituário completo da primeira consulta registrada com receituário associado.
+```
+select * from consulta inner join receita on consulta.id_consulta = receita.consulta_id inner join paciente 
+on paciente.id_paciente = consulta.paciente_id order by receita.id_receita limit 1;
+```
+
+- Todos os dados da consulta de maior valor e também da de menor valor (ambas as consultas não foram realizadas sob convênio).
+
+```
+select *, MAX(valor_consulta), MIN(valor_consulta) from consulta group by convenio_id is null;
+```
+
+- Todos os dados das internações em seus respectivos quartos, calculando o total da internação a partir do valor de diária do quarto e o número de dias entre a entrada e a alta.
+
+```
+SELECT i.id_internacao, i.data_entrada, i.data_prev_alta, i.data_alta, i.procedimento,
+       q.numero AS numero_quarto, t.valor_diaria,
+       DATEDIFF(i.data_alta, i.data_entrada) AS num_dias,
+       DATEDIFF(i.data_alta, i.data_entrada) * t.valor_diaria AS total_internacao
+FROM internacao i
+JOIN quarto q ON i.id_internacao = q.id_quarto
+JOIN tipo_quarto t ON q.id_tipoquarto = t.id_tipoquarto;
+```
