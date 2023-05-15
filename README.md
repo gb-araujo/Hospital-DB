@@ -92,3 +92,11 @@ FROM internacao i
 JOIN quarto q ON i.id_internacao = q.id_quarto
 JOIN tipo_quarto t ON q.id_tipoquarto = t.id_tipoquarto;
 ```
+- Nome do paciente, data da consulta e especialidade de todas as consultas em que os pacientes eram menores de 18 anos na data da consulta e cuja especialidade não seja “pediatria”, ordenando por data de realização da consulta.
+- Nome do paciente, nome do médico, data da internação e procedimentos das internações realizadas por médicos da especialidade “gastroenterologia”, que tenham acontecido em “enfermaria”.
+- Os nomes dos médicos, seus CRMs e a quantidade de consultas que cada um realizou.
+- Todos os médicos que tenham "Gabriel" no nome. 
+```
+SELECT * FROM medico WHERE nome = "Gabriel";
+```
+- Os nomes, CREs e número de internações de enfermeiros que participaram de mais de uma internação.
