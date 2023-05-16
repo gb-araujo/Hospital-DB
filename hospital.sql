@@ -3,6 +3,13 @@ USE hospital;
 
 -- CRIANDO TABELAS
 
+CREATE TABLE IF NOT EXISTS `convenio` (
+  `id_convenio` int PRIMARY KEY AUTO_INCREMENT,
+  `nome` varchar(255),
+  `CNPJ` int,
+  `tempo_carencia` timestamp
+);
+
 CREATE TABLE IF NOT EXISTS `especialidade` (
     `id_especialidade` int PRIMARY KEY AUTO_INCREMENT,
     `nome` varchar(255)
@@ -16,7 +23,9 @@ CREATE TABLE IF NOT EXISTS `consulta` (
    `id_paciente` varchar(255),
    `valor` float,
    `data_consulta` timestamp,
-   `hora_consulta` time
+   `hora_consulta` time,
+   `id_convenio` int,
+   FOREIGN KEY (id_convenio) REFERENCES `convenio`(`id_convenio`)
 );
 
 CREATE TABLE IF NOT EXISTS `medico` (
@@ -47,15 +56,10 @@ CREATE TABLE IF NOT EXISTS `paciente` (
   `data_nascimento` varchar(255),
   `telefone` varchar(255),
   `endereco` varchar(255),
-  `id_convenio` int
+  `id_convenio` int,
+  FOREIGN KEY (id_convenio) REFERENCES `convenio`(`id_convenio`)
 );
 
-CREATE TABLE IF NOT EXISTS `convenio` (
-  `id_convenio` int PRIMARY KEY AUTO_INCREMENT,
-  `nome` varchar(255),
-  `CNPJ` int,
-  `tempo_carencia` timestamp
-);
 
 CREATE TABLE IF NOT EXISTS `enfermeiro` (
   `id_enfermeiro` int PRIMARY KEY AUTO_INCREMENT,
@@ -139,29 +143,29 @@ INSERT INTO paciente (nome, data_nascimento, telefone, endereco) VALUES
 ('Paula', '2000-11-20', '11 1717-1717', 'Rua P, 3435');
 
 
-INSERT INTO convenio (nome, cnpj) VALUES
-('Unimed', '123456789'),
-('Amil', '123456789'),
-('SulAmérica', '123456789'),
-('Bradesco Saúde', '123456789');
+INSERT INTO convenio (id_convenio, nome, cnpj) VALUES
+(1, 'Unimed', '123456789'),
+(2,'Amil', '123456789'),
+(3,'SulAmérica', '123456789'),
+(4,'Bradesco Saúde', '123456789');
 
-INSERT INTO consulta (data_consulta, hora_consulta, id_paciente, id_medico) VALUES
- ('2016-02-15', '09:30', 1, 1),
- ('2017-05-22', '15:45', 2, 2),
- ('2018-01-10', '11:15', 3, 3),
- ('2019-03-03', '14:30', 4, 4),
- ('2016-07-12', '10:00', 5, 5),
- ('2017-08-21', '11:45', 6, 6),
- ('2018-06-09', '16:15', 7, 7),
- ('2019-10-30', '08:30', 8, 8),
- ('2020-02-18', '09:30', 9, 9),
- ('2016-05-05', '11:00', 10, 1),
- ('2017-04-18', '12:30', 11, 2),
- ('2018-07-07', '15:00', 12, 3),
- ('2019-11-02', '09:00', 13, 4),
- ('2020-12-10', '14:30', 14, 5),
- ('2016-09-25', '08:15', 15, 6),
- ('2017-07-11', '10:45', 16, 7);
+INSERT INTO consulta (data_consulta, hora_consulta, id_paciente, id_medico, id_convenio, valor) VALUES
+ ('2016-02-15', '09:30', 1, 1, 1, 249),
+ ('2017-05-22', '15:45', 2, 2, 2, 120),
+ ('2018-01-10', '11:15', 3, 3, 3, 504),
+ ('2019-03-03', '14:30', 4, 4, 4, 532),
+ ('2016-07-12', '10:00', 5, 5, 4, 756),
+ ('2017-08-21', '11:45', 6, 6, 3, 213),
+ ('2018-06-09', '16:15', 7, 7, 1, 234),
+ ('2019-10-30', '08:30', 8, 8, 2, 153),
+ ('2020-02-18', '09:30', 9, 9, 1, 563),
+ ('2016-05-05', '11:00', 10, 1, 4, 231),
+ ('2017-04-18', '12:30', 11, 2, 2, 643),
+ ('2018-07-07', '15:00', 12, 3 , 1, 876),
+ ('2019-11-02', '09:00', 13, 4 , 2, 504),
+ ('2020-12-10', '14:30', 14, 5 , 3, 121),
+ ('2016-09-25', '08:15', 15, 6, 4, 504),
+ ('2017-07-11', '10:45', 16, 7, 4, 504);
  
   INSERT INTO `tipo_quarto` (`descricao`, `valor_diaria`) VALUES
   ('Apartamento', 500.00),
@@ -188,22 +192,32 @@ INSERT INTO consulta (data_consulta, hora_consulta, id_paciente, id_medico) VALU
   ('Enf. Isabela', 901234567, 90123),
   ('Enf. João', 123456780, 12340);
  
- INSERT INTO internacao (data_entrada, data_prev_alta, data_alta, procedimento, enfermeiro_id) VALUES
-('2022-01-01 10:00:00', '2022-01-03 10:00:00', NULL, 'Cirurgia de apendicite', 1),
-('2022-01-02 10:00:00', '2022-01-06 10:00:00', NULL, 'Cirurgia de vesícula', 2),
-('2022-01-03 10:00:00', '2022-01-07 10:00:00', NULL, 'Cirurgia de hérnia', 3),
-('2022-01-04 10:00:00', '2022-01-09 10:00:00', NULL, 'Cirurgia de tireoide', 4),
-('2022-01-05 10:00:00', '2022-01-08 10:00:00', NULL, 'Cirurgia de próstata', 5),
-('2022-01-06 10:00:00', '2022-01-10 10:00:00', NULL, 'Cirurgia de joelho', 6),
-('2022-01-07 10:00:00', '2022-01-11 10:00:00', NULL, 'Cirurgia de coluna', 7),
-('2022-01-08 10:00:00', '2022-01-12 10:00:00', NULL, 'Cirurgia de coração', 8),
-('2022-01-09 10:00:00', '2022-01-13 10:00:00', NULL, 'Cirurgia de pulmão', 9),
-('2022-01-10 10:00:00', '2022-01-14 10:00:00', NULL, 'Cirurgia de rim', 10);
+INSERT INTO internacao (data_entrada, data_prev_alta, data_alta, procedimento, enfermeiro_id) VALUES
+('2022-01-01 10:00:00', '2022-01-03 10:00:00', '2022-01-04 14:00:00', 'Cirurgia de apendicite', 1),
+('2022-01-02 10:00:00', '2022-01-06 10:00:00', '2022-01-07 13:00:00', 'Cirurgia de vesícula', 2),
+('2022-01-03 10:00:00', '2022-01-07 10:00:00', '2022-01-08 15:00:00', 'Cirurgia de hérnia', 3),
+('2022-01-04 10:00:00', '2022-01-09 10:00:00', '2022-01-10 12:00:00', 'Cirurgia de tireoide', 4),
+('2022-01-05 10:00:00', '2022-01-08 10:00:00', '2022-01-09 11:00:00', 'Cirurgia de próstata', 5),
+('2022-01-06 10:00:00', '2022-01-10 10:00:00', '2022-01-11 16:00:00', 'Cirurgia de joelho', 6),
+('2022-01-07 10:00:00', '2022-01-11 10:00:00', '2022-01-12 14:00:00', 'Cirurgia de coluna', 7),
+('2022-01-08 10:00:00', '2022-01-12 10:00:00', '2022-01-13 12:00:00', 'Cirurgia de coração', 8),
+('2022-01-09 10:00:00', '2022-01-13 10:00:00', '2022-01-14 15:00:00', 'Cirurgia de pulmão', 9),
+('2022-01-10 10:00:00', '2022-01-14 10:00:00', '2022-01-15 11:00:00', 'Cirurgia de rim', 10);
+
+
+ -- Adicionando chaves estrangeiras na tabela `receita`
+ALTER TABLE receita
+ADD COLUMN especialidade_id int,
+ADD COLUMN medico_id int,
+ADD COLUMN consulta_id int,
+ADD FOREIGN KEY (especialidade_id) REFERENCES especialidade(id_especialidade),
+ADD FOREIGN KEY (medico_id) REFERENCES medico(id_medico),
+ADD FOREIGN KEY (consulta_id) REFERENCES consulta(id_consulta);
+
  
  -- ALGUNS AJUSTES, SETANDO FOREIGN KEY, ADICIONADO COLUNA E ATUALIZANDO PACIENTE.
  
-ALTER TABLE paciente ADD FOREIGN KEY (id_convenio) REFERENCES convenio(id_convenio);
-ALTER TABLE consulta ADD COLUMN id_convenio int;
+ 
 ALTER TABLE consulta ADD FOREIGN KEY (id_convenio) REFERENCES convenio(id_convenio);
 UPDATE paciente SET id_convenio = 1 WHERE nome = 'Ana';
 
@@ -219,7 +233,4 @@ UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 7;
 UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 8;
 UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 9;
 UPDATE medico SET em_atividade = 'Em atividade' WHERE id_medico = 10;
-
 ALTER TABLE medico ALTER COLUMN em_atividade SET DEFAULT 'Em atividade';
-
-
